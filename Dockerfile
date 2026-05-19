@@ -4,6 +4,12 @@ FROM eclipse-temurin:17-jdk
 # Set the working directory in the container
 WORKDIR /app
 
+# Copy the Maven project files
+COPY . .
+
+# Build the project using Maven
+RUN ./mvnw clean package -DskipTests
+
 # Copy the JAR file into the container
 COPY target/personal-expense-tracker.jar app.jar
 
