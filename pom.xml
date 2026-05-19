@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 
+                             http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    
+    <modelVersion>4.0.0</modelVersion>
+    
+    <!-- Project Coordinates -->
+    <groupId>com.expense</groupId>
+    <artifactId>expense-tracker</artifactId>
+    <version>1.0.0</version>
+    <packaging>war</packaging>
+    
+    <!-- Project Information -->
+    <name>Personal Expense Tracker</name>
+    <description>
+        A Java web application for tracking personal expenses using JDBC, 
+        Servlets, JSP, and MySQL with strict MVC architecture.
+    </description>
+    <url>http://localhost:8080/ExpenseTracker</url>
+    
+    <!-- Properties -->
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <maven.compiler.source>1.8</maven.compiler.source>
+        <maven.compiler.target>1.8</maven.compiler.target>
+        <version.java>1.8</version.java>
+        <version.tomcat>10.0.27</version.tomcat>
+        <version.mysql>8.0.33</version.mysql>
+    </properties>
+    
+    <!-- Dependencies -->
+    <dependencies>
+        
+        <!-- MySQL JDBC Driver (Alternative removed to prevent conflict) -->
+        
+        <!-- Alternative: MySQL Connector/J (newer version) -->
+
+        <dependency>
+            <groupId>com.mysql</groupId>
+            <artifactId>mysql-connector-j</artifactId>
+            <version>8.0.33</version>
+            <scope>runtime</scope>
+        </dependency>
+
+
+        
+        <!-- Servlet API (provided by Tomcat) -->
+        <dependency>
+            <groupId>jakarta.servlet</groupId>
+            <artifactId>jakarta.servlet-api</artifactId>
+            <version>6.0.0</version>
+            <scope>provided</scope>
+        </dependency>
+        
+        <!-- Jakarta JSTL -->
+        <dependency>
+            <groupId>jakarta.servlet.jsp.jstl</groupId>
+            <artifactId>jakarta.servlet.jsp.jstl-api</artifactId>
+            <version>3.0.0</version>
+        </dependency>
+        <dependency>
+            <groupId>org.glassfish.web</groupId>
+            <artifactId>jakarta.servlet.jsp.jstl</artifactId>
+            <version>3.0.1</version>
+        </dependency>
+        
+        <!-- SLF4J API (Logging Facade) -->
+        <!-- Optional: For better logging control -->
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+            <version>2.0.5</version>
+        </dependency>
+        
+        <!-- Logback (SLF4J Implementation) -->
+        <!-- Optional: For structured logging -->
+        <dependency>
+            <groupId>ch.qos.logback</groupId>
+            <artifactId>logback-classic</artifactId>
+            <version>1.4.6</version>
+        </dependency>
+        
+    </dependencies>
+
+    
+    <!-- Build Configuration -->
+    <build>
+        <finalName>ExpenseTracker</finalName>
+        
+        <plugins>
+            
+            <!-- Compiler Plugin -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.10.1</version>
+                <configuration>
+                    <source>1.8</source>
+                    <target>1.8</target>
+                    <encoding>UTF-8</encoding>
+                </configuration>
+            </plugin>
+            
+            <!-- War Plugin -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-war-plugin</artifactId>
+                <version>3.3.2</version>
+                <configuration>
+                    <webXml>src/main/webapp/WEB-INF/web.xml</webXml>
+                    <warName>ExpenseTracker</warName>
+                </configuration>
+            </plugin>
+            
+            <!-- Tomcat Plugin (Development) -->
+            <!-- 
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>tomcat-maven-plugin</artifactId>
+                <version>1.1</version>
+                <configuration>
+                    <url>http://localhost:8080/manager/text</url>
+                    <server>TomcatServer</server>
+                    <path>/ExpenseTracker</path>
+                </configuration>
+            </plugin>
+            -->
+            
+            <!-- Jetty Plugin (Alternative Development Server) -->
+            <plugin>
+                <groupId>org.eclipse.jetty</groupId>
+                <artifactId>jetty-maven-plugin</artifactId>
+                <version>11.0.14</version>
+                <configuration>
+                    <webApp>
+                        <contextPath>/ExpenseTracker</contextPath>
+                    </webApp>
+                    <stopPort>9966</stopPort>
+                    <stopKey>jetty-stop</stopKey>
+                </configuration>
+            </plugin>
+            
+        </plugins>
+    </build>
+    
+    <!-- Repositories (if needed) -->
+    <repositories>
+        <repository>
+            <id>central</id>
+            <name>Central Repository</name>
+            <url>https://repo.maven.apache.org/maven2</url>
+        </repository>
+    </repositories>
+    
+</project>
