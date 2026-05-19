@@ -1,20 +1,20 @@
-# Use an official OpenJDK runtime as a parent image
-FROM eclipse-temurin:17-jdk
+# Use Tomcat 10 with OpenJDK 17 as the base image
+FROM tomcat:10-jdk17-eclipse-temurin
 
-# Set the working directory in the container
+# Set the working directory
 WORKDIR /app
 
-# Copy the Maven project files
-COPY . .
+# Copy the Maven wrapper and pom.xml into the container
+COPY .mvn/ .mvn/
+COPY mvnw pom.xml ./
 
-# Build the project using Maven
+# Run Maven to build the application
 RUN ./mvnw clean package -DskipTests
 
-# Copy the JAR file into the container
-COPY target/personal-expense-tracker.jar app.jar
+# Copy the generated WAR file to the Tomcat webapps directory
+COPY target/expense-tracker-1.0.0.war "$CATALINA_HOME/webapps/ROOT.war"
 
-# Expose the port your app runs on
+# Expose the port Tomcat runs on
 EXPOSE 8080
 
-# Run the JAR file
-ENTRYPOINT ["java", "-jar", "app.jar"]
+# The CMD is inherited from the Tomcat base image
