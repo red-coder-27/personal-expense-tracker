@@ -1,18 +1,24 @@
-# Use Tomcat 10 with OpenJDK 17 as the base image
-FROM tomcat:10-jdk17
+# Stage 1: Build the application using Maven
+FROM maven:3.9-eclipse-temurin-17 AS builder
 
 # Set the working directory
 WORKDIR /app
 
-# Copy the Maven wrapper and pom.xml into the container
-COPY .mvn/ .mvn/
-COPY mvnw pom.xml ./
+# Copy the source code and pom.xml
+COPY pom.xml .
+COPY src ./src
 
-# Run Maven to build the application
-RUN ./mvnw clean package -DskipTests
+# Build the application
+RUN mvn clean package -DskipTests
 
-# Copy the generated WAR file to the Tomcat webapps directory
-COPY target/expense-tracker-1.0.0.war "$CATALINA_HOME/webapps/ROOT.war"
+# Stage 2: Run the application on Tomcat
+FROM tomcat:10-jdk17
+
+# Remove the default ROOT application
+RUN rm -rf "$CATALINA_HOME/webapps/ROOT"
+
+# Copy the built WAR file from the builder stage
+COPY --from=builder /app/target/expense-tracker-1.0.0.war "$CATALINA_HOME/webapps/ROOT.war"
 
 # Expose the port Tomcat runs on
 EXPOSE 8080
