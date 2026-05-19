@@ -1,5 +1,5 @@
 # Use Tomcat 10 with OpenJDK 17 as the base image
-FROM tomcat:10-jdk17-eclipse-temurin
+FROM tomcat:10-jdk17
 
 # Set the working directory
 WORKDIR /app
